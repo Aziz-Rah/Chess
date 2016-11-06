@@ -25,5 +25,6 @@ public abstract class Piece {
 	}
 	
 	abstract boolean isValidMove(String move);
+	//not boolean anymore
 	abstract void move(int row, int col);
 }
