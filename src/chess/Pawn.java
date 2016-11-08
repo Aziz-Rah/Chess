@@ -8,25 +8,24 @@ public class Pawn extends Piece{
 		super(row, col, text);	
 	}
 
-	boolean isValidMove(String move) {
-		
-		String s1 = move.substring(0,2);
-		String s2 = move.substring(3,5);
-		int newRow = Character.getNumericValue(s2.charAt(0));
-		int newCol = Character.getNumericValue(s2.charAt(1));
+	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
 		
+		
 		if (row == newRow && col == newCol)
 			return false;
+			
 		
 		//Collision detection
 		boolean collision = false;
-		if (board[newRow][newCol] != null)
+		if (board.pieces[newRow][newCol] != null)
 			collision = true;
 		
-		if (board[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+		if(board.pieces[newRow][newCol] != null) {
+			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
 			return false;
+		}
 		
 		//determines whether the piece is black or white
 		boolean w = false;
@@ -53,25 +52,25 @@ public class Pawn extends Piece{
 		
 		//Checks if the pawn move is valid with the enPassant
 		if (enPassant && w){
-			if ((board[newRow][newCol] != null) || board[newRow][newCol-1] != null)
+			if ((board.pieces[newRow][newCol] != null) || board.pieces[newRow][newCol-1] != null)
 				return false;
 			if (col == newCol && (row+1 == newRow || row+2 == newRow))
 				return true;
 		}
 		else if (w){
-			if (board[newRow][newCol] != null)
+			if (board.pieces[newRow][newCol] != null)
 				return false;
 			if (row+1 == newRow && col == newCol)
 				return true;
 		}
 		else if (enPassant && !w){
-			if ((board[newRow][newCol] != null) || board[newRow][newCol+1] != null)
+			if ((board.pieces[newRow][newCol] != null) || board.pieces[newRow][newCol+1] != null)
 				return false;
 			if (col == newCol && (row-1 == newRow || row-2 == newRow))
 				return true;
 		}
 		else {
-			if (board[newRow][newCol] != null)
+			if (board.pieces[newRow][newCol] != null)
 				return false;
 			if (row-1 == newRow && col == newCol)
 				return true;
@@ -80,13 +79,12 @@ public class Pawn extends Piece{
 		return false;
 	}
 
-	boolean move(int row, int col) {
+	void move(Board board, int row, int col) {
 		
-		board[row][col] = new Pawn(row,col,getText());
+		board.pieces[row][col] = new Pawn(row,col,getText());
 		if (enPassant){
 			//create SouL object
 		}
-		return true;
 	}
 	
 	//Call promotion after the piece has already moved

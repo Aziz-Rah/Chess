@@ -5,11 +5,13 @@ public abstract class Piece {
 	private int row;
 	private int col;
 	private String text;
+	boolean hasMoved;
 	
 	public Piece(int row, int col, String text){
 		this.row = row;
 		this.col = col;
 		this.text = text;
+		hasMoved = false;
 	}
 	
 	public int getRow(){
@@ -24,6 +26,6 @@ public abstract class Piece {
 		return text;
 	}
 	
-	abstract boolean isValidMove(String move);
-	abstract boolean move(int row, int col);
+	abstract boolean isValidMove(Board board, int row, int col);
+	abstract void move(Board board, int row, int col);
 }

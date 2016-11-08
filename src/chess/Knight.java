@@ -6,18 +6,13 @@ public class Knight extends Piece {
 		super(row, col, text);
 	}
 
-	boolean isValidMove(String move) {
-		
-		String s1 = move.substring(0,2);
-		String s2 = move.substring(3,5);
-		int newRow = Character.getNumericValue(s2.charAt(0));
-		int newCol = Character.getNumericValue(s2.charAt(1));
+	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
 		if (row == newRow && col == newCol)
 			return false;
 		
-		if (board[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+		if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
 			return false;
 		
 		//Knight moving vertically
@@ -31,8 +26,8 @@ public class Knight extends Piece {
 	
 	}
 
-	boolean move(int row, int col) {
-		board[row][col] = new Knight(row,col,getText());
+	boolean move(Board board, int row, int col) {
+		board.pieces[row][col] = new Knight(row,col,getText());
 		return true;
 	}
 
