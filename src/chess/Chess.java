@@ -77,7 +77,45 @@ public class Chess {
 			return false;
 	}
 	
-	boolean checkmate(Board board) {
+	boolean checkmate(Board board, Piece king) {
+		
+		int row = king.getRow();
+		int col = king.getCol();
+		
+		/*	
+		 * Find where the king can move
+		 * The boolean arr is a square surrounding the king and finding every angle it can move
+		 * From here check if any opposing color's piece has a valid move wherever the boolean array has a true
+		 * Might be a better way to do this sorry LOL
+		 * King is on arr[1][1]
+		*/
+		Boolean[][] arr = new Boolean[3][3];
+		if (king.isValidMove(board,row,col-1))
+			arr[1][0] = true;
+		if (king.isValidMove(board,row+1,col-1))
+			arr[0][0] = true;
+		if (king.isValidMove(board,row+1,col+1))
+			arr[0][1] = true;
+		if (king.isValidMove(board,row+1,col+1))
+			arr[0][2] = true;
+		if (king.isValidMove(board,row,col+1))
+			arr[1][2] = true;
+		if (king.isValidMove(board,row-1,col-1))
+			arr[2][0] = true;
+		if (king.isValidMove(board,row-1,col))
+			arr[2][1] = true;
+		if (king.isValidMove(board,row-1,col+1))
+			arr[2][2] = true;
+		arr[1][1] = false;
+		
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 3; j++){
+				
+				//Here is where every opposing piece needs to checked if it has a valid move to where the king has a valid move
+				//(the coordinates corresponding to a true in the boolean arr)
+			}
+		}
+		
 		return false;
 	}
 }
