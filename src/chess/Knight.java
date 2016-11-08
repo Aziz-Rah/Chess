@@ -26,9 +26,8 @@ public class Knight extends Piece {
 	
 	}
 
-	boolean move(Board board, int row, int col) {
+	void move(Board board, int row, int col) {
 		board.pieces[row][col] = new Knight(row,col,getText());
-		return true;
 	}
 
 }

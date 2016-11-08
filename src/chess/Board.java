@@ -24,7 +24,7 @@ public class Board {
 		
 		for(int i = 0; i < 8; i++) {
 			pieces[1][i] = new Pawn(1, i, "bp");
-			pieces[6][i] = new Pawn(1, i, "wp");
+			pieces[6][i] = new Pawn(6, i, "wp");
 		}
 		
 		pieces[7][0] = new Rook(7, 0, "wR");

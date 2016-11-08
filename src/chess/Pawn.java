@@ -17,14 +17,13 @@ public class Pawn extends Piece{
 			return false;
 			
 		
-		//Collision detection
 		boolean collision = false;
-		if (board.pieces[newRow][newCol] != null)
-			collision = true;
-		
 		if(board.pieces[newRow][newCol] != null) {
+			//Collision detection
+			collision = true;
+			
 			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
-			return false;
+				return false;
 		}
 		
 		//determines whether the piece is black or white
@@ -33,18 +32,20 @@ public class Pawn extends Piece{
 		if (s.charAt(0) == 'w')
 			w = true;
 		
-		if((w && row == 2) || (!w && row == 7))
+		/*
+		if((w && row == 6) || (!w && row == 1))
 			enPassant = true;
+			*/
 		
 		//Determines whether the pawn is attacking properly
 		if (w && collision){
-			if (row+1 == newRow && (col+1 == newCol || col-1 == newCol))
+			if (row-1 == newRow && (col+1 == newCol || col-1 == newCol))
 				return true;
 			else
 				return false;
 		}
 		else if (!w && collision){
-			if (row-1 == newRow && (col+1 == newCol || col-1 == newCol))
+			if (row+1 == newRow && (col+1 == newCol || col-1 == newCol))
 				return true;
 			else
 				return false;
@@ -60,7 +61,7 @@ public class Pawn extends Piece{
 		else if (w){
 			if (board.pieces[newRow][newCol] != null)
 				return false;
-			if (row+1 == newRow && col == newCol)
+			if (row-1 == newRow && col == newCol)
 				return true;
 		}
 		else if (enPassant && !w){
@@ -72,7 +73,7 @@ public class Pawn extends Piece{
 		else {
 			if (board.pieces[newRow][newCol] != null)
 				return false;
-			if (row-1 == newRow && col == newCol)
+			if (row+1 == newRow && col == newCol)
 				return true;
 		}
 		
