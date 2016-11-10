@@ -13,8 +13,10 @@ public class Rook extends Piece{
 		if (row == newRow && col == newCol)
 			return false;
 		
-		if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
-			return false;
+		if(board.pieces[newRow][newCol] != null) {
+			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+				return false;
+		}
 		
 		//Determines if there is a piece before the final position
 		if (newRow == row){

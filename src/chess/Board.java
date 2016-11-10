@@ -49,6 +49,12 @@ public class Board {
 		pieces[row][col] = null;
 	}
 	
+	public void movePiece(Piece piece, int row, int col) {
+		pieces[piece.getRow()][piece.getCol()] = null;
+		piece.setPos(row, col);
+		pieces[row][col] = piece;
+	}
+	
 	public void display() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {

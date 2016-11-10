@@ -28,8 +28,11 @@ public class King extends Piece {
 			return false;
 		}
 		
-		if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+		if(board.pieces[newRow][newCol] != null) {
+			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
 			return false;
+		}
+		
 		return true;
 	}
 

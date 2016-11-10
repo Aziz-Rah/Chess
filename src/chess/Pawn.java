@@ -12,10 +12,8 @@ public class Pawn extends Piece{
 		int row = getRow();
 		int col = getCol();
 		
-		
 		if (row == newRow && col == newCol)
 			return false;
-			
 		
 		boolean collision = false;
 		if(board.pieces[newRow][newCol] != null) {

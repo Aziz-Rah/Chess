@@ -11,9 +11,10 @@ public class Knight extends Piece {
 		int col = getCol();
 		if (row == newRow && col == newCol)
 			return false;
-		
-		if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+		if(board.pieces[newRow][newCol] != null) {
+			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
 			return false;
+		}
 		
 		//Knight moving vertically
 		if ((row + 2 == newRow || row - 2 == newRow) && (col + 1 == newCol || col - 1 == newCol))

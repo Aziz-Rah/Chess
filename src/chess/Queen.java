@@ -24,8 +24,11 @@ public class Queen extends Piece {
 		if ((diffR != diffC && !vert) || (diffR != diffC && !horiz)) 
 			return false;
 		
-		if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
-			return false;
+		if(board.pieces[newRow][newCol] != null) {
+			if (board.pieces[newRow][newCol].getText().charAt(0) == getText().charAt(0))
+				return false;
+		}
+		
 		//Check if a piece exists before the final position
 		
 		//1D Motion
