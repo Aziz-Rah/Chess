@@ -42,7 +42,7 @@ public class Queen extends Piece {
 					return true;
 				}
 				else {
-					for (int i = col-1; i < newCol; i--){
+					for (int i = col-1; i > newCol; i--){
 						if (board.pieces[newRow][i] != null)
 							return false;
 					}
@@ -58,7 +58,7 @@ public class Queen extends Piece {
 					return true;
 				}
 				else {
-					for (int i = row-1; i < newRow; i--){
+					for (int i = row-1; i > newRow; i--){
 						if (board.pieces[i][newCol] != null)
 							return false;
 					}
