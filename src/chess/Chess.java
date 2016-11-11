@@ -4,13 +4,17 @@ import java.util.Scanner;
 public class Chess {
 	public static void main(String[] args) {
 		boolean play = true;
+		boolean draw = false;
 		int player = 0; // white player = 0, black player = 1
 		Scanner in = new Scanner(System.in);
 		
 		// fill board and display it
 		Board board = new Board();
 		board.fill();
+		board.fillList();
 		board.display();
+		
+		boolean enPassant = false;
 		
 		while(play) {
 			// move prompt
@@ -24,30 +28,90 @@ public class Chess {
 			if(move.equals("resign"))
 				break;
 			
+			// break if player agrees to a draw
+			if(draw) {
+				if(move.equals("draw")) {
+					System.out.println("Draw");
+					break;
+				}
+				else
+					draw = false;
+			}
+			
 			// convert move input to appropriate row and col (e.g. e5 -> row 6, col 4)
 			int startRow = getRowNum(move.charAt(1)), startCol = getColNum(move.charAt(0));
 			int endRow = getRowNum(move.charAt(4)), endCol = getColNum(move.charAt(3));
 			
-			Piece piece = board.getPiece(startRow, startCol);
-			if(piece.isValidMove(board, endRow, endCol)) {
-				// move piece if valid move is entered
-				piece.move(board, endRow, endCol);
-				board.removePiece(startRow, startCol);
-				
-				board.display();
-				
-				if(check(piece, board)) {
-					System.out.println("Check");
+			// check to make sure move has legal input
+			if(startRow > 7 || endRow > 7 || startCol > 7 || endCol > 7) {
+				System.err.println("Error: Move is not in correct formatting (FileRank FileRank)");
+			} else {
+				Piece piece = board.getPiece(startRow, startCol);
+				if(piece != null && piece.isValidMove(board, endRow, endCol)) {
+					enPassant = false;
+					
+					// move piece if valid move is entered
+					board.movePiece(piece, endRow, endCol);
+					
+					if(move.length() == 11) {
+						String append = move.substring(6);
+						if(append.equals("draw?"))
+							draw = true;
+					}
+					
+					System.out.println();
+					board.display();
+					
+					// check if en passant move is possible on next turn
+					if(player == 0 && piece.getText() == "wp" && startRow == 6 && endRow == 4)
+						enPassant = true;
+					if(player == 1 && piece.getText() == "bp" && startRow == 1 && endRow == 3)
+						enPassant = true;
+					
+					if(check(piece, board)) {
+						System.out.println("Check");
+					}
+					
+					// alternate turn
+					if(player == 0)
+						player++;
+					else
+						player--;
+				} else if(enPassant == true && board.pieces[startRow][endCol] != null) {
+					if(player == 0 && board.pieces[startRow][startCol].getText() == "wp") {
+						if(board.pieces[startRow][endCol].getText() == "bp") {
+							board.movePiece(piece, endRow, endCol);
+							board.removePiece(startRow, endCol);
+							
+							System.out.println();
+							board.display();
+							
+							// alternate turn
+							if(player == 0)
+								player++;
+							else
+								player--;
+						}
+					} else if(board.pieces[startRow][startCol].getText() == "bp") {
+						if(board.pieces[startRow][endCol].getText() == "wp") {
+							board.movePiece(piece, endRow, endCol);
+							board.removePiece(startRow, endCol);
+							
+							System.out.println();
+							board.display();
+							
+							// alternate turn
+							if(player == 0)
+								player++;
+							else
+								player--;
+						}
+					}
+					enPassant = false;
 				}
-				
-				// alternate turn
-				if(player == 0)
-					player++;
 				else
-					player--;
+					System.err.println("\nIllegal move, try again\n");
 			}
-			else
-				System.out.println("Illegal move, try again");
 		}
 		in.close();
 	}
@@ -99,41 +163,130 @@ public class Chess {
 		
 		int row = king.getRow();
 		int col = king.getCol();
+		boolean w = false;
+		if (king.getText().charAt(0) == 'w')
+			w = true;
 		
-		/*	
-		 * Find where the king can move
-		 * The boolean arr is a square surrounding the king and finding every angle it can move
-		 * From here check if any opposing color's piece has a valid move wherever the boolean array has a true
-		 * Might be a better way to do this sorry LOL
-		 * King is on arr[1][1]
-		*/
-		Boolean[][] arr = new Boolean[3][3];
-		if (king.isValidMove(board,row,col-1))
-			arr[1][0] = true;
-		if (king.isValidMove(board,row+1,col-1))
-			arr[0][0] = true;
-		if (king.isValidMove(board,row+1,col+1))
-			arr[0][1] = true;
-		if (king.isValidMove(board,row+1,col+1))
-			arr[0][2] = true;
-		if (king.isValidMove(board,row,col+1))
-			arr[1][2] = true;
-		if (king.isValidMove(board,row-1,col-1))
-			arr[2][0] = true;
-		if (king.isValidMove(board,row-1,col))
-			arr[2][1] = true;
-		if (king.isValidMove(board,row-1,col+1))
-			arr[2][2] = true;
-		arr[1][1] = false;
+		//Whenever a king has a valid move, count is incremented and if a opposing piece can attack that valid move,
+		//count is decremented. count == 0 -> checkmate
+		int count = 0;
 		
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				
-				//Here is where every opposing piece needs to checked if it has a valid move to where the king has a valid move
-				//(the coordinates corresponding to a true in the boolean arr)
+		if (king.isValidMove(board,row+1,col-1)){	//topleft
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row+1, col-1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row+1, col-1)){
+						count--;
+						break;
+				}
 			}
 		}
+		if (king.isValidMove(board,row+1,col))		//topmid
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row+1, col)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row+1, col)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row+1,col+1))	//topright
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row+1, col+1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row+1, col+1)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row,col-1))		//midleft
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row, col-1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row, col-1)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row,col+1))		//midright
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row, col+1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row, col+1)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row-1,col-1))	//bottomleft
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row-1, col-1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row-1, col-1)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row-1,col))		//bottommid
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row-1, col)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row-1, col)){
+					count--;
+					break;
+				}
+			}
+		if (king.isValidMove(board,row-1,col+1))	//bottomright
+			count++;
+			for (int i = 0; i < 16; i++){
+				if (w){
+					if (board.list[0][i].isValidMove(board, row-1, col+1)){
+						count--;
+						break;
+					}
+				}
+				else if (board.list[1][i].isValidMove(board, row-1, col+1)){
+					count--;
+					break;
+				}
+			}
 		
+		if (count == 0)
+			return true;
 		return false;
 	}
 }

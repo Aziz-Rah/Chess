@@ -32,5 +32,5 @@ public abstract class Piece {
 	}
 	
 	abstract boolean isValidMove(Board board, int row, int col);
-	abstract void move(Board board, int row, int col);
+	//abstract void move(Board board, int row, int col);
 }

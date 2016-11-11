@@ -27,8 +27,10 @@ public class Knight extends Piece {
 	
 	}
 
+	/*
 	void move(Board board, int row, int col) {
 		board.pieces[row][col] = new Knight(row,col,getText());
 	}
+	*/
 
 }

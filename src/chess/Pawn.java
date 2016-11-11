@@ -30,24 +30,49 @@ public class Pawn extends Piece{
 		if (s.charAt(0) == 'w')
 			w = true;
 		
-		/*
-		if((w && row == 6) || (!w && row == 1))
-			enPassant = true;
-			*/
+		if(hasMoved == false) {			
+			if(w) {
+				if(col == newCol && newRow == 4) {
+					return true;
+				}
+			}
+			else {
+				if(col == newCol && newRow == 3) {
+					return true;
+				}
+			}
+		}
 		
 		//Determines whether the pawn is attacking properly
 		if (w && collision){
-			if (row-1 == newRow && (col+1 == newCol || col-1 == newCol))
+			if (row-1 == newRow && (col+1 == newCol || col-1 == newCol)) {
+				hasMoved = true;
 				return true;
+			}
 			else
 				return false;
 		}
 		else if (!w && collision){
-			if (row+1 == newRow && (col+1 == newCol || col-1 == newCol))
+			if (row+1 == newRow && (col+1 == newCol || col-1 == newCol)) {
+				hasMoved = true;
 				return true;
+			}
 			else
 				return false;
 		}
+		
+		/*
+		if(w) {
+			if (board.pieces[newRow][newCol] != null)
+				return false;
+			if (row-1 == newRow && col == newCol)
+				return true;
+		} else {
+			if (board.pieces[newRow][newCol] != null)
+				return false;
+			if (row+1 == newRow && col == newCol)
+				return true;
+		}*/
 		
 		//Checks if the pawn move is valid with the enPassant
 		if (enPassant && w){
@@ -77,7 +102,8 @@ public class Pawn extends Piece{
 		
 		return false;
 	}
-
+	
+/*
 	void move(Board board, int row, int col) {
 		
 		board.pieces[row][col] = new Pawn(row,col,getText());
@@ -85,6 +111,7 @@ public class Pawn extends Piece{
 			//create SouL object
 		}
 	}
+	*/
 	
 	//Call promotion after the piece has already moved
 	Piece promotion(String s){

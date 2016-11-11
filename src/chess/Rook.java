@@ -55,8 +55,10 @@ public class Rook extends Piece{
 		return false;
 		
 	}
-
+	
+/*
 	void move(Board board, int row, int col) {
 		board.pieces[row][col] = new Rook(row,col,getText());
 	}
+	*/
 }

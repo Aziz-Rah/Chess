@@ -103,8 +103,9 @@ public class Queen extends Piece {
 		}
 		return false;
 	}
-
+/*
 	void move(Board board, int row, int col) {
 		board.pieces[row][col] = new Queen(row,col,getText());
 	}
+	*/
 }

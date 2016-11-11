@@ -35,12 +35,13 @@ public class King extends Piece {
 		
 		return true;
 	}
-
+/*
 	void move(Board board, int row, int col) {
 		board.pieces[getRow()][getCol()] = null;	
 		board.pieces[row][col] = new King(row,col,getText());
 		hasMoved = true;
 	}
+	*/
 
 	//This moves the pieces as well
 	boolean castling(int col, Board board){

@@ -61,9 +61,9 @@ public class Bishop extends Piece {
 		return false;
 	}
 
-	
+/*	
 	void move(Board board, int row, int col) {
 		board.pieces[row][col] = new Bishop(row,col,getText());
 	}
-
+*/
 }
