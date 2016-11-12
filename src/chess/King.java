@@ -1,11 +1,27 @@
 package chess;
 
+/**
+ * King class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ *
+ */
+
 public class King extends Piece {
 	
+	/**
+	 * King constructor
+	 * @param row	indicates rank of King
+	 * @param col	indicates file of King
+	 * @param text	indicates color of King
+	 */
 	public King(int row, int col, String text) {
 		super(row, col, text);
 	}
 
+	/**
+	 * isValidMove	implements inherited abstract method as needed for King
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		
 		int row = getRow();
@@ -35,13 +51,6 @@ public class King extends Piece {
 		
 		return true;
 	}
-/*
-	void move(Board board, int row, int col) {
-		board.pieces[getRow()][getCol()] = null;	
-		board.pieces[row][col] = new King(row,col,getText());
-		hasMoved = true;
-	}
-	*/
 
 	//This moves the pieces as well
 	boolean castling(int col, Board board){

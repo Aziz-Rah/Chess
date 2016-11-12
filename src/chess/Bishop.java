@@ -1,11 +1,26 @@
 package chess;
 
+/**
+ * Bishop class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ *
+ */
 public class Bishop extends Piece {
 
+	/**
+	 * Bishop constructor
+	 * @param row	indicates rank of Bishop
+	 * @param col	indicates file of Bishop
+	 * @param text	indicates color of Bishop
+	 */
 	public Bishop(int row, int col, String text) {
 		super(row, col, text);
 	}
 
+	/**
+	 * isValidMove implements inherited abstract method as needed for Bishop
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
@@ -60,10 +75,4 @@ public class Bishop extends Piece {
 		
 		return false;
 	}
-
-/*	
-	void move(Board board, int row, int col) {
-		board.pieces[row][col] = new Bishop(row,col,getText());
-	}
-*/
 }

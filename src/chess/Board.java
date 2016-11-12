@@ -1,9 +1,20 @@
 package chess;
 
+/**
+ * Board class
+ * @author Amy Guinto
+ * @author Aziz Rahman
+ * 
+ */
+
 public class Board {
 	Piece[][] pieces;
 	Piece[][] list;
 	
+	/**
+	 * Board constructor
+	 * Initializes a 2D array representing the board to null
+	 */
 	public Board() {
 		pieces = new Piece[8][8];
 		for(int i = 0; i < 8; i++) {
@@ -13,6 +24,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * fillList creates a 2D array called list representing all of the pieces
+	 * Each starting piece is placed in an index in the array
+	 */
 	public void fillList(){
 		list = new Piece[2][16];
 		
@@ -40,6 +55,9 @@ public class Board {
 		list[1][15] = new Rook(7, 7, "bR");
 	}
 	
+	/**
+	 * fill creates all of the starting pieces and places them in their appropriate spots on the board
+	 */
 	public void fill() {
 		pieces[0][0] = new Rook(0, 0, "bR");
 		pieces[0][1] = new Knight(0, 1, "bN");
@@ -65,14 +83,29 @@ public class Board {
 		pieces[7][7] = new Rook(7, 7, "wR");
 	}
 	
+	/**
+	 * getPiece returns the piece at a specified location
+	 * @param row	indicates the rank of the piece
+	 * @param col	indicates the file of the piece
+	 * @return Piece
+	 */
 	public Piece getPiece(int row, int col) {
 		return pieces[row][col];
 	}
 	
+	/**
+	 * addPiece adds a specified piece to the board
+	 * @param piece	is the piece to be added
+	 */
 	public void addPiece(Piece piece) {
 		pieces[piece.getRow()][piece.getCol()] = piece;
 	}
 	
+	/**
+	 * removePiece removes the piece at a specified location
+	 * @param row	indicates the rank of the piece to be removed
+	 * @param col	indicates the file of the piece to be removed
+	 */
 	public void removePiece(int row, int col) {
 		Piece piece = pieces[row][col];
 		
@@ -101,6 +134,12 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * movePiece moves a given piece to a specified location
+	 * @param piece	is the piece to be moved
+	 * @param row	indicates the rank the piece is to be moved to
+	 * @param col	indicates the file the piece is to be moved to
+	 */
 	public void movePiece(Piece piece, int row, int col) {
 		int startRow = piece.getRow(), startCol = piece.getCol();
 		pieces[startRow][startCol] = null;
@@ -132,6 +171,9 @@ public class Board {
 		pieces[row][col] = piece;		
 	}
 	
+	/**
+	 * display prints out the board and its pieces
+	 */
 	public void display() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {

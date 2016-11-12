@@ -1,11 +1,27 @@
 package chess;
 
+/**
+ * Rook class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ * 
+ */
+
 public class Rook extends Piece{
 
+	/**
+	 * Rook constructor
+	 * @param row	indicates rank of Rook
+	 * @param col	indicates file of Rook
+	 * @param text	indicates color of Rook
+	 */
 	public Rook(int row, int col, String text) {
 		super(row, col, text);	
 	}
 
+	/**
+	 * isValidMove	implements inherited abstract method as needed for Rook
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
@@ -55,10 +71,4 @@ public class Rook extends Piece{
 		return false;
 		
 	}
-	
-/*
-	void move(Board board, int row, int col) {
-		board.pieces[row][col] = new Rook(row,col,getText());
-	}
-	*/
 }

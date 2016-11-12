@@ -1,11 +1,26 @@
 package chess;
 
-public class Knight extends Piece {
+/**
+ * Knight class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ *
+ */
 
+public class Knight extends Piece {
+	/**
+	 * Knight constructor
+	 * @param row	indicates rank of Knight
+	 * @param col	indicates file of Knight
+	 * @param text	indicates color of Knight
+	 */
 	public Knight(int row, int col, String text) {
 		super(row, col, text);
 	}
 
+	/**
+	 * isValidMove implements inherited abstract method as needed for Knight
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
@@ -26,11 +41,4 @@ public class Knight extends Piece {
 			return false;
 	
 	}
-
-	/*
-	void move(Board board, int row, int col) {
-		board.pieces[row][col] = new Knight(row,col,getText());
-	}
-	*/
-
 }

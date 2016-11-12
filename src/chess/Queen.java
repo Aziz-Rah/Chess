@@ -1,11 +1,27 @@
 package chess;
 
+/**
+ * Queen class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ *
+ */
+
 public class Queen extends Piece {
 
+	/**
+	 * Queen constructor
+	 * @param row	indicates rank of Queen
+	 * @param col	indicates file of Queen
+	 * @param text	indicates color of Queen
+	 */
 	public Queen(int row, int col, String text) {
 		super(row, col, text);
 	}
 	
+	/**
+	 * isValidMove	implements inherited abstract method as needed for Queen
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
@@ -21,7 +37,7 @@ public class Queen extends Piece {
 		if (diffR == 0)
 			horiz = true;
 		//Queen moves in a direction that isn't diagonal, vertical, or horizontal
-		if ((diffR != diffC && !vert) || (diffR != diffC && !horiz)) 
+		if ((diffR != diffC && !vert && !horiz)) 
 			return false;
 		
 		if(board.pieces[newRow][newCol] != null) {
@@ -103,9 +119,4 @@ public class Queen extends Piece {
 		}
 		return false;
 	}
-/*
-	void move(Board board, int row, int col) {
-		board.pieces[row][col] = new Queen(row,col,getText());
-	}
-	*/
 }

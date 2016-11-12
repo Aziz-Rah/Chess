@@ -1,13 +1,27 @@
 package chess;
-
+/**
+ * Pawn class
+ * @author Aziz Rahman
+ * @author Amy Guinto
+ *
+ */
 public class Pawn extends Piece{
 	
 	private boolean enPassant = false;
 	
+	/**
+	 * Pawn constructor
+	 * @param row	indicates rank of Pawn
+	 * @param col	indicates file of Pawn
+	 * @param text	indicates color of Pawn
+	 */
 	public Pawn(int row, int col, String text) {
 		super(row, col, text);	
 	}
-
+	
+	/**
+	 * isValidMove implements inherited abstract method as needed for Pawn
+	 */
 	boolean isValidMove(Board board, int newRow, int newCol) {
 		int row = getRow();
 		int col = getCol();
@@ -61,19 +75,6 @@ public class Pawn extends Piece{
 				return false;
 		}
 		
-		/*
-		if(w) {
-			if (board.pieces[newRow][newCol] != null)
-				return false;
-			if (row-1 == newRow && col == newCol)
-				return true;
-		} else {
-			if (board.pieces[newRow][newCol] != null)
-				return false;
-			if (row+1 == newRow && col == newCol)
-				return true;
-		}*/
-		
 		//Checks if the pawn move is valid with the enPassant
 		if (enPassant && w){
 			if ((board.pieces[newRow][newCol] != null) || board.pieces[newRow][newCol-1] != null)
@@ -102,16 +103,6 @@ public class Pawn extends Piece{
 		
 		return false;
 	}
-	
-/*
-	void move(Board board, int row, int col) {
-		
-		board.pieces[row][col] = new Pawn(row,col,getText());
-		if (enPassant){
-			//create SouL object
-		}
-	}
-	*/
 	
 	//Call promotion after the piece has already moved
 	Piece promotion(String s){
