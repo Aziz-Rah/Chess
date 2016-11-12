@@ -26,6 +26,8 @@ public class Chess {
 		board.display();
 		
 		boolean enPassant = false;
+		boolean illegal = false;
+		Piece checkPiece = null;
 		
 		while(play) {
 			// move prompt
@@ -77,6 +79,17 @@ public class Chess {
 						// move piece if valid move is entered
 						board.movePiece(piece, endRow, endCol);
 						
+						illegal = false;
+						if(checkPiece != null) {
+							if(check(checkPiece, board) == 1) {
+								System.out.println("\nIllegal move, try again\n");
+								board.movePiece(piece, startRow, startCol);
+								illegal = true;
+							}
+							else
+								checkPiece = null;
+						}
+						
 						if(move.length() == 11) {
 							String append = move.substring(6);
 							if(append.equals("draw?"))
@@ -120,8 +133,10 @@ public class Chess {
 							}
 						}
 						
-						System.out.println();
-						board.display();
+						if(!illegal) {
+							System.out.println();
+							board.display();
+						}
 						
 						// check if en passant move is possible on next turn
 						if(player == 0 && piece.getText() == "wp" && startRow == 6 && endRow == 4)
@@ -129,7 +144,13 @@ public class Chess {
 						if(player == 1 && piece.getText() == "bp" && startRow == 1 && endRow == 3)
 							enPassant = true;
 						
-						if(check(piece, board) == 2) {
+						// checks for check and checkmate
+						if(check(piece, board) == 1) {
+							System.out.println("\nCheck\n");
+							checkPiece = piece;
+						}
+						else if(check(piece, board) == 2) {
+							System.out.println("\nCheckmate\n");
 							if(player == 0)
 								System.out.println("\nWhite wins");
 							else
@@ -138,10 +159,13 @@ public class Chess {
 						}
 						
 						// alternate turn
-						if(player == 0)
-							player++;
-						else
-							player--;
+						if(!illegal) {
+							if(player == 0)
+								player++;
+							else
+								player--;
+						}
+						
 					}
 					// checks for en Passant move
 					else if(enPassant == true && board.pieces[startRow][endCol] != null) {
@@ -270,19 +294,14 @@ public class Chess {
 			}
 		}
 
-		board.removePiece(kingRow, kingCol); // temporarily remove king (ensures proper check using isValidMove)
+		
 		if(piece.isValidMove(board, kingRow, kingCol)) {
 			if(checkmate(board, king, piece)) {
-				System.out.println("\nCheckmate");
 				return 2;
 			}
-			
-			board.addPiece(king);
-			System.out.println("\nCheck");
 			return 1;
 		}
-		else {
-			board.addPiece(king);
+		else {	
 			return 0;
 		}
 	}
@@ -712,13 +731,13 @@ public class Chess {
 				if(!dontRun)
 					clear(storage);
 			}
-			
-		}
-			
-		if (cmHelper(board, storage, w))
+			if (cmHelper(board, storage, w))
 			return false;
 		else
 			return true;
+		}
+			
+		return false;
 	}
 	
 	/**
